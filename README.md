@@ -5,7 +5,7 @@ Kanban-style project management tool built throughout the Pro React book. End of
 
 ### Summary
 
-The chapter got deeper into JSX. Implemented inline conditional styles, used dangerouslySetInnerHTML to implement markdown on card description, added new task field and require `key` props.
+The chapter got deeper into JSX. Implemented inline conditional styles, used dangerouslySetInnerHTML to implement markdown on card description, added new task field and the required `key` props.
 
 ![Chapter 2 Screen Shot](https://cloud.githubusercontent.com/assets/33676/10972879/4503297a-83c2-11e5-8e2e-2c9bdd65735e.png)
 
