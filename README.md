@@ -1,19 +1,16 @@
-Kanban React.js App - Chapter 3
+Kanban React.js App - Chapter 4
 =================================
 
-Kanban-style project management tool built throughout the Pro React book. End of chapter 3.
+Kanban-style project management tool built throughout the Pro React book. End of chapter 4.
 
 ### Summary
 
-Chapter 3 covered propTypes, data flow in React applications, component types (Stateful components, pure components, containers...), React immutable helper, among other topics.
+Chapter 4 covered animations and drag'n drop. The card toggling in the Kanban App is now animated and the user can drag cards to change their position and status.
 
-The Kanban app now fetches data from remote API and the user can add, remove and toggle tasks.
-
-![Chapter 3 Screen Shot](https://cloud.githubusercontent.com/assets/33676/10974676/5f8d8152-83ca-11e5-90f3-eb60b4a978ec.png)
 
 ### How the repository is organized
 
-You are in the Chapter 3 Branch.
+You are in the Chapter 4 Branch.
 
 The repository is organized in branches: Each branch corresponds to the end of a specific chapter. The master branch contains the final source code.
 
