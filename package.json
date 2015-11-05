@@ -20,7 +20,10 @@
     "babel-polyfill": "^6.0.16",
     "marked": "^0.3.5",
     "react": "~0.14.*",
+    "react-addons-css-transition-group": "^0.14.2",
     "react-addons-update": "^0.14.2",
+    "react-dnd": "^2.0.2",
+    "react-dnd-html5-backend": "^1.0.0",
     "react-dom": "~0.14.*",
     "whatwg-fetch": "^0.10.1"
   }
