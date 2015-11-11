@@ -20,14 +20,10 @@ var config = {
       }
     }]
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin()
-  ],
   devServer: {
     contentBase: "./public",
     colors: true,
     historyApiFallback: true,
-    hot: true,
     inline: true
   },
 }
@@ -37,13 +33,13 @@ var config = {
  */
 if (process.env.NODE_ENV === 'production') {
   config.devtool = false;
-  config.plugins = config.plugins.concat([
+  config.plugins = [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({comments: false}),
     new webpack.DefinePlugin({
       'process.env': {NODE_ENV: JSON.stringify('production')}
     })
-  ]);
+  ];
 };
 
 module.exports = config;
