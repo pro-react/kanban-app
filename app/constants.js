@@ -5,6 +5,8 @@ export default {
   FETCH_CARDS_SUCCESS: 'fetch cards success',
   FETCH_CARDS_SUCCESS: 'fetch cards error',
 
+  TOGGLE_CARD_DETAILS: 'toggle card details',
+
   CREATE_CARD: 'create card',
   CREATE_CARD_SUCCESS: 'create card success',
   CREATE_CARD_ERROR: 'create card error',

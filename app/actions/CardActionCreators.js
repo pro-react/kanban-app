@@ -14,6 +14,14 @@ let CardActionCreators = {
     });
   },
 
+  toggleCardDetails(cardId) {
+    AppDispatcher.dispatch({
+      type: constants.TOGGLE_CARD_DETAILS,
+      payload: {cardId}
+    });
+  },
+
+
   addCard(card) {
     AppDispatcher.dispatchAsync(KanbanAPI.addCard(card), {
       request: constants.CREATE_CARD,
