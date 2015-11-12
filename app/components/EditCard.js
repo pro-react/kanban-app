@@ -1,17 +1,15 @@
 import React,{Component, PropTypes} from 'react';
-import CardForm from './CardForm'
+import CardForm from './CardForm';
+import CardStore from '../stores/CardStore';
+import CardActionCreators from '../actions/CardActionCreators';
 
-class NewCard extends Component{
+import 'babel-polyfill';
+
+class EditCard extends Component{
 
   componentWillMount(){
-    this.setState({
-      id: Date.now(),
-      title:'',
-      description:'',
-      status:'todo',
-      color:'#c9c9c9',
-      tasks:[]
-    });
+    let card = CardStore.getCard(parseInt(this.props.params.card_id));
+    this.setState(Object.assign({},card));
   }
 
   handleChange(field, value){
@@ -20,7 +18,8 @@ class NewCard extends Component{
 
   handleSubmit(e){
     e.preventDefault();
-    this.props.cardCallbacks.addCard(this.state);
+    CardActionCreators.updateCard(CardStore.getCard(parseInt(this.props.params.card_id)),this.state);
+
     this.props.history.pushState(null,'/');
   }
 
@@ -31,17 +30,17 @@ class NewCard extends Component{
   render(){
     return (
       <CardForm draftCard={this.state}
-                buttonLabel="Create Card"
+                buttonLabel="Edit Card"
                 handleChange={this.handleChange.bind(this)}
                 handleSubmit={this.handleSubmit.bind(this)}
                 handleClose={this.handleClose.bind(this)} />
-    );
+    )
   }
 }
 
-NewCard.propTypes = {
+EditCard.propTypes = {
   cardCallbacks: PropTypes.object,
-};
+}
 
 
-export default NewCard;
+export default EditCard;

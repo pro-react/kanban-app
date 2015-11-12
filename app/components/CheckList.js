@@ -1,9 +1,12 @@
 import React, { Component, PropTypes } from 'react';
+import TaskActionCreators from '../actions/TaskActionCreators';
+
 
 class CheckList extends Component {
   checkInputKeyPress(evt){
     if(evt.key === 'Enter'){
-      this.props.taskCallbacks.add(this.props.cardId, evt.target.value);
+      let newTask = {id:Date.now(), name:evt.target.value, done:false};
+      TaskActionCreators.addTask(this.props.cardId, newTask);
       evt.target.value = '';
     }
   }
@@ -13,11 +16,11 @@ class CheckList extends Component {
       <li key={task.id} className="checklist__task">
         <input type="checkbox"
                checked={task.done}
-               onChange={ this.props.taskCallbacks.toggle.bind(null, this.props.cardId, task.id, taskIndex) } />
+               onChange={ TaskActionCreators.toggleTask.bind(null, this.props.cardId, task, taskIndex) } />
         {task.name}{' '}
         <a href="#"
            className="checklist__task--remove"
-           onClick={ this.props.taskCallbacks.delete.bind(null, this.props.cardId, task.id, taskIndex) } />
+           onClick={ TaskActionCreators.deleteTask.bind(null, this.props.cardId, task, taskIndex) } />
       </li>
     ));
 

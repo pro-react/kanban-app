@@ -2,10 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import marked from 'marked';
 import { DragSource, DropTarget } from 'react-dnd';
-import constants from './constants';
+import constants from '../constants';
 import CheckList from './CheckList';
-
 import {Link} from 'react-router';
+import CardActionCreators from '../actions/CardActionCreators';
 
 let titlePropType = (props, propName, componentName) => {
   if (props[propName]) {
@@ -26,14 +26,17 @@ const cardDragSpec = {
     };
   },
   endDrag(props) {
-    props.cardCallbacks.persistCardDrag(props.id, props.status);
+    CardActionCreators.persistCardDrag(props);
   }
 }
 
 const cardDropSpec = {
   hover(props, monitor) {
     const draggedId = monitor.getItem().id;
-    props.cardCallbacks.updatePosition(draggedId, props.id);
+    if(props.id !== draggedId){
+      CardActionCreators.updateCardPosition(draggedId, props.id);
+    }
+
   }
 }
 
@@ -111,8 +114,6 @@ Card.propTypes = {
   description: PropTypes.string,
   color: PropTypes.string,
   tasks: PropTypes.arrayOf(PropTypes.object),
-  taskCallbacks: PropTypes.object,
-  cardCallbacks: PropTypes.object,
   connectDragSource: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired
 };
