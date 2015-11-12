@@ -209,7 +209,7 @@ class KanbanBoardContainer extends Component {
     fetch(`${API_URL}/cards/${cardId}`, {
       method: 'put',
       headers: API_HEADERS,
-      body: JSON.stringify({status: card.status, row_order_position: cardIndex+1})
+      body: JSON.stringify({status: card.status, row_order_position: cardIndex})
     })
     .then((response) => {
       if(!response.ok){
