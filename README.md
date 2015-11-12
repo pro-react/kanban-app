@@ -8,8 +8,7 @@ Kanban-style project management tool built throughout the Pro React book. End of
 Chapter 5 covered routing - We've added components and routes for editing and creating new cards.
 
 
-![chapter5 Screen Shot](https://cloud.githubusercontent.com/assets/33676/11108946/c484b51e-88d2-11e5-9df6-5bc4cfdd91a3.png)
-
+![chapter5 Screen Shot](https://cloud.githubusercontent.com/assets/33676/11109050/acde1b34-88d3-11e5-8159-93efae69a91d.png)
 
 ### How the repository is organized
 
