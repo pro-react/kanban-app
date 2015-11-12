@@ -5,6 +5,8 @@ import { DragSource, DropTarget } from 'react-dnd';
 import constants from './constants';
 import CheckList from './CheckList';
 
+import {Link} from 'react-router';
+
 let titlePropType = (props, propName, componentName) => {
   if (props[propName]) {
     let value = props[propName];
@@ -35,7 +37,6 @@ const cardDropSpec = {
   }
 }
 
-
 let collectDrag = (connect, monitor) => {
   return {
     connectDragSource: connect.dragSource()
@@ -48,8 +49,6 @@ let collectDrop = (connect, monitor) => {
   };
 }
 
-
-
 class Card extends Component {
   constructor() {
     super(...arguments);
@@ -61,6 +60,7 @@ class Card extends Component {
   toggleDetails() {
     this.setState({showDetails: !this.state.showDetails});
   }
+
 
   render() {
     const { connectDragSource, connectDropTarget } = this.props;
@@ -90,6 +90,7 @@ class Card extends Component {
     return connectDropTarget(connectDragSource(
       <div className="card">
         <div style={sideColor} />
+        <div className="card__edit"><Link to={'/edit/'+this.props.id}>✎</Link></div>
         <div className={
             this.state.showDetails? "card__title card__title--is-open" : "card__title"
           } onClick={this.toggleDetails.bind(this)}>
