@@ -1,18 +1,16 @@
-Kanban React.js App - Chapter 5
+Kanban React.js App - Chapter 6
 =================================
 
-Kanban-style project management tool built throughout the Pro React book. End of chapter 5.
+Kanban-style project management tool built throughout the Pro React book. End of chapter 6.
 
 ### Summary
 
-Chapter 5 covered routing - We've added components and routes for editing and creating new cards.
-
-
-![chapter5 Screen Shot](https://cloud.githubusercontent.com/assets/33676/11109050/acde1b34-88d3-11e5-8159-93efae69a91d.png)
+Chapter 6 presented Flux: It showed how to integrate Flux in a React Application and how to architect complex applications including async API communication.
+The Kanban app went through a big refactor in this chapter to fit in the Flux architecture.
 
 ### How the repository is organized
 
-You are in the Chapter 5 Branch.
+You are in the Chapter 6 Branch.
 
 The repository is organized in branches: Each branch corresponds to the end of a specific chapter. The master branch contains the final source code.
 
