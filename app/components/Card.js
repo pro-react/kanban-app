@@ -6,6 +6,7 @@ import constants from '../constants';
 import CheckList from './CheckList';
 import {Link} from 'react-router';
 import CardActionCreators from '../actions/CardActionCreators';
+import shallowCompare from 'react-addons-shallow-compare';
 
 let titlePropType = (props, propName, componentName) => {
   if (props[propName]) {
@@ -57,6 +58,9 @@ class Card extends Component {
     CardActionCreators.toggleCardDetails(this.props.id);
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
+  }
 
   render() {
     const { connectDragSource, connectDropTarget } = this.props;
