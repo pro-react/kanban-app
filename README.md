@@ -8,7 +8,7 @@ Kanban-style project management tool built throughout the Pro React book
 
 ### How the repository is organized
 
-The repository is organized in branches: Each branch corresponds to the end of a specific chapter. The master branch contains the final source code.
+The repository is organized in branches: Each branch corresponds to the end of a specific chapter.
 
 After cloning and fetching all of the remote branches, you can switch branches using `git checkout`, for example:
 
