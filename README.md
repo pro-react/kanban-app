@@ -14,7 +14,7 @@ After cloning and fetching all of the remote branches, you can switch branches u
 
 ```
 git clone git@github.com:pro-react/kanban-app.git
-git fetch
+git fetch --all
 git checkout chapter3
 ```
 
