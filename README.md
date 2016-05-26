@@ -18,18 +18,3 @@ git fetch --all
 git checkout chapter3
 ```
 
-### Usage
-
-**1. Change the Authorization code at app/api/KanbanApi.js**
-
-**2. Install**
-```
-npm install
-```
-
-**3. Start the application**
-```
-npm start
-```
-
-Open http://localhost:8080 in your browser.
