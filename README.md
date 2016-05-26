@@ -26,12 +26,14 @@ git checkout chapter3
 
 ### Usage
 
-**Install**
+**1. Change the Authorization code at app/KanbanBoardContainer.js**
+
+**2. Install**
 ```
 npm install
 ```
 
-**Start the application**
+**3. Start the application**
 ```
 npm start
 ```
