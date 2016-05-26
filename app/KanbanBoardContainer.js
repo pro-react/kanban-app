@@ -96,12 +96,7 @@ class KanbanBoardContainer extends Component {
     });
     // set the component state to the mutated object
     this.setState({cards:nextState});
-    // Call the API to remove the task on the server
-    fetch(`${API_URL}/cards/${cardId}/tasks/${taskId}`, {
-      method: 'delete',
-      headers: API_HEADERS
-    });
-
+    
     // Call the API to remove the task on the server
     fetch(`${API_URL}/cards/${cardId}/tasks/${taskId}`, {
       method: 'delete',
