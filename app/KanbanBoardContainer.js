@@ -248,8 +248,8 @@ class KanbanBoardContainer extends Component {
              add: this.addTask.bind(this)
            }}
            cardCallbacks={{
-             updateStatus: this.updateCardStatus,
-             updatePosition: this.updateCardPosition,
+             updateStatus: this.updateCardStatus.bind(this),
+             updatePosition: this.updateCardPosition.bind(this),
              persistCardDrag: this.persistCardDrag.bind(this)
           }}
       />
