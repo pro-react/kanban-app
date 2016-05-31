@@ -1,10 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import { DragDropContext } from 'react-dnd';
+import { connect } from 'react-redux';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Link } from 'react-router';
 import List from './List';
+import CardActionCreators from '../actions/CardActionCreators';
 
 class KanbanBoard extends Component {
+  componentDidMount(){
+    this.props.fetchCards();
+  }
+
   render(){
     return (
       <div className="app">
@@ -29,4 +35,19 @@ KanbanBoard.propTypes = {
   cards: PropTypes.arrayOf(PropTypes.object),
 };
 
-export default DragDropContext(HTML5Backend)(KanbanBoard);
+const KanbanWithDragDrop = DragDropContext(HTML5Backend)(KanbanBoard);
+
+
+const mapStateToProps = (state) => (
+  {
+    cards: state.cards
+  }
+);
+
+const mapDispatchToProps = (dispatch) => (
+  {
+    fetchCards: () => dispatch(CardActionCreators.fetchCards())
+  }
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(KanbanWithDragDrop);

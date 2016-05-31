@@ -1,18 +1,20 @@
-import React,{Component} from 'react';
+import React,{Component, PropTypes} from 'react';
+import { connect } from 'react-redux';
 import CardForm from './CardForm';
-import DraftStore from '../stores/DraftStore';
-import {Container} from 'flux/utils';
 import CardActionCreators from '../actions/CardActionCreators';
 
 class NewCard extends Component{
 
+  componentDidMount(){
+    this.props.createDraft()
+  }
   handleChange(field, value){
-    CardActionCreators.updateDraft(field, value);
+    this.props.updateDraft(field, value);
   }
 
   handleSubmit(e){
     e.preventDefault();
-    CardActionCreators.addCard(this.state.draft);
+    this.props.addCard(this.props.draft);
     this.props.history.pushState(null,'/');
   }
 
@@ -20,14 +22,12 @@ class NewCard extends Component{
     this.props.history.pushState(null,'/');
   }
 
-  componentDidMount(){
-    setTimeout(()=>CardActionCreators.createDraft(), 0)
-  }
+
 
 
   render(){
     return (
-      <CardForm draftCard={this.state.draft}
+      <CardForm draftCard={this.props.draft}
                 buttonLabel="Create Card"
                 handleChange={this.handleChange.bind(this)}
                 handleSubmit={this.handleSubmit.bind(this)}
@@ -36,9 +36,28 @@ class NewCard extends Component{
   }
 }
 
-NewCard.getStores = () => ([DraftStore]);
-NewCard.calculateState = (prevState) => ({
-  draft: DraftStore.getState()
-});
 
-export default Container.create(NewCard);
+NewCard.propTypes = {
+  draft: PropTypes.object,
+  createDraft: PropTypes.func.isRequired,
+  updateDraft: PropTypes.func.isRequired,
+  addCard: PropTypes.func.isRequired,
+}
+
+
+const mapStateToProps = (state) => ({
+    draft: state.cardDraft
+  }
+);
+
+
+
+const mapDispatchToProps = (dispatch) => (
+  {
+    createDraft: () => dispatch(CardActionCreators.createDraft()),
+    updateDraft: (field, value) => dispatch(CardActionCreators.updateDraft(field, value)),
+    addCard: (draft) => dispatch(CardActionCreators.addCard(draft))
+  }
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewCard);

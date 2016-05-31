@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import marked from 'marked';
 import { DragSource, DropTarget } from 'react-dnd';
-import constants from '../constants';
+import { connect } from 'react-redux';
+import { CARD } from '../constants';
 import CheckList from './CheckList';
 import {Link} from 'react-router';
 import CardActionCreators from '../actions/CardActionCreators';
@@ -26,7 +27,7 @@ const cardDragSpec = {
     };
   },
   endDrag(props) {
-    CardActionCreators.persistCardDrag(props);
+    props.persistCardDrag(props);
   }
 }
 
@@ -34,7 +35,7 @@ const cardDropSpec = {
   hover(props, monitor) {
     const draggedId = monitor.getItem().id;
     if(props.id !== draggedId){
-      CardActionCreators.updateCardPosition(draggedId, props.id);
+      props.updateCardPosition(draggedId, props.id);
     }
 
   }
@@ -54,7 +55,7 @@ let collectDrop = (connect, monitor) => {
 
 class Card extends Component {
   toggleDetails() {
-    CardActionCreators.toggleCardDetails(this.props.id);
+    this.props.toggleCardDetails(this.props.id);
   }
 
 
@@ -107,9 +108,21 @@ Card.propTypes = {
   color: PropTypes.string,
   tasks: PropTypes.arrayOf(PropTypes.object),
   connectDragSource: PropTypes.func.isRequired,
-  connectDropTarget: PropTypes.func.isRequired
+  connectDropTarget: PropTypes.func.isRequired,
+  persistCardDrag: PropTypes.func.isRequired,
+  updateCardPosition: PropTypes.func.isRequired,
+  toggleCardDetails: PropTypes.func.isRequired
 };
 
-const dragHighOrderCard = DragSource(constants.CARD, cardDragSpec, collectDrag)(Card);
-const dragDropHighOrderCard = DropTarget(constants.CARD, cardDropSpec, collectDrop)(dragHighOrderCard);
-export default dragDropHighOrderCard
+const dragHighOrderCard = DragSource(CARD, cardDragSpec, collectDrag)(Card);
+const dragDropHighOrderCard = DropTarget(CARD, cardDropSpec, collectDrop)(dragHighOrderCard);
+
+const mapDispatchToProps = (dispatch) => (
+  {
+    persistCardDrag: (props) => dispatch(CardActionCreators.persistCardDrag(props)),
+    updateCardPosition: (draggedId, id) => dispatch(CardActionCreators.updateCardPosition(draggedId, id)),
+    toggleCardDetails: (id) => dispatch(CardActionCreators.toggleCardDetails(id))
+  }
+);
+
+export default connect(null, mapDispatchToProps)(dragDropHighOrderCard);

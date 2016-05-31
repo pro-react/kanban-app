@@ -1,12 +1,14 @@
-Kanban React.js App - Chapter 6
-=================================
+Kanban React.js App - Chapter 6 Alternative (Redux)
+===================================================
 
-Kanban-style project management tool built throughout the Pro React book. End of chapter 6.
+Kanban-style project management tool built throughout the Pro React book. End of the alternative chapter 6 (Redux).
+
+The alternative chapter 6 using Redux instead of Flux is available online: http://www.pro-react.com/materials/
 
 ### Summary
 
-Chapter 6 presented Flux: It showed how to integrate Flux in a React Application and how to architect complex applications including async API communication.
-The Kanban app went through a big refactor in this chapter to fit in the Flux architecture.
+The alternative Chapter 6 presented Redux: It showed how to integrate Redux in a React Application and how to architect complex applications including async API communication.
+The Kanban app went through a big refactor in this chapter to fit in the Redux architecture.
 
 ### How the repository is organized
 

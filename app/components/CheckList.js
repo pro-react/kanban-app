@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import TaskActionCreators from '../actions/TaskActionCreators';
 
 
@@ -6,7 +7,7 @@ class CheckList extends Component {
   checkInputKeyPress(evt){
     if(evt.key === 'Enter'){
       let newTask = {id:Date.now(), name:evt.target.value, done:false};
-      TaskActionCreators.addTask(this.props.cardId, newTask);
+      this.props.addTask(this.props.cardId, newTask);
       evt.target.value = '';
     }
   }
@@ -16,11 +17,11 @@ class CheckList extends Component {
       <li key={task.id} className="checklist__task">
         <input type="checkbox"
                checked={task.done}
-               onChange={ TaskActionCreators.toggleTask.bind(null, this.props.cardId, task, taskIndex) } />
+               onChange={ this.props.toggleTask.bind(null, this.props.cardId, task, taskIndex) } />
         {task.name}{' '}
         <a href="#"
            className="checklist__task--remove"
-           onClick={ TaskActionCreators.deleteTask.bind(null, this.props.cardId, task, taskIndex) } />
+           onClick={ this.props.deleteTask.bind(null, this.props.cardId, task, taskIndex) } />
       </li>
     ));
 
@@ -37,6 +38,22 @@ class CheckList extends Component {
 }
 CheckList.propTypes = {
   cardId: PropTypes.number,
-  tasks: PropTypes.arrayOf(PropTypes.object)
+  tasks: PropTypes.arrayOf(PropTypes.object),
+  addTask: PropTypes.func.isRequired,
+  toggleTask: PropTypes.func.isRequired,
+  deleteTask: PropTypes.func.isRequired
 };
-export default CheckList;
+
+
+
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = (dispatch) => (
+  {
+    addTask: (cardId, newTask) => dispatch(TaskActionCreators.addTask(cardId, newTask)),
+    toggleTask: (cardId, task, taskIndex) => dispatch(TaskActionCreators.toggleTask(cardId, task, taskIndex)),
+    deleteTask: (cardId, task, taskIndex) => dispatch(TaskActionCreators.deleteTask(cardId, task, taskIndex))
+  }
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckList);

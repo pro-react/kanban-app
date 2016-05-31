@@ -1,79 +1,98 @@
-import AppDispatcher from '../AppDispatcher';
-import constants from '../constants';
+import {
+  REQUEST_CARDS,
+  RECEIVE_CARDS,
+  REQUEST_CREATE_CARD,
+  RECEIVE_CREATE_CARD,
+  TOGGLE_CARD_DETAILS,
+  REQUEST_UPDATE_CARD,
+  RECEIVE_UPDATE_CARD,
+  UPDATE_CARD_POSITION,
+  UPDATE_CARD_STATUS,
+  REQUEST_PERSIST_CARD_DRAG,
+  RECEIVE_PERSIST_CARD_DRAG,
+  CREATE_DRAFT,
+  UPDATE_DRAFT,
+} from '../constants';
+
 import KanbanAPI from '../api/KanbanApi';
 import {throttle} from '../utils';
-import CardStore from '../stores/CardStore';
-
 
 let CardActionCreators = {
   fetchCards() {
-    AppDispatcher.dispatchAsync(KanbanAPI.fetchCards(), {
-      request: constants.FETCH_CARDS,
-      success: constants.FETCH_CARDS_SUCCESS,
-      failure: constants.FETCH_CARDS_ERROR
-    });
+    return (dispatch) => {
+      dispatch({ type: REQUEST_CARDS });
+      KanbanAPI.fetchCards().then(
+        (cards) => dispatch({ type: RECEIVE_CARDS, success:true, cards }),
+        (error) => dispatch({ type: RECEIVE_CARDS, success:false, error })
+      );
+    };
   },
 
   toggleCardDetails(cardId) {
-    AppDispatcher.dispatch({
-      type: constants.TOGGLE_CARD_DETAILS,
-      payload: {cardId}
-    });
+    return { type: TOGGLE_CARD_DETAILS, cardId };
   },
-
 
   addCard(card) {
-    AppDispatcher.dispatchAsync(KanbanAPI.addCard(card), {
-      request: constants.CREATE_CARD,
-      success: constants.CREATE_CARD_SUCCESS,
-      failure: constants.CREATE_CARD_ERROR
-    }, {card});
+    return (dispatch) => {
+      dispatch({ type: REQUEST_CREATE_CARD, card });
+      KanbanAPI.addCard(card).then(
+        (receivedNewCard) => dispatch({ type: RECEIVE_CREATE_CARD, success:true, card: receivedNewCard }),
+        (error) => dispatch({ type: RECEIVE_CREATE_CARD, success:false, card, error })
+      );
+    };
   },
 
-  updateCard(card, draftCard) {
-    AppDispatcher.dispatchAsync(KanbanAPI.updateCard(card, draftCard), {
-      request: constants.UPDATE_CARD,
-      success: constants.UPDATE_CARD_SUCCESS,
-      failure: constants.UPDATE_CARD_ERROR
-    }, {card, draftCard});
+
+  updateCard(card, cardDraft) {
+    return (dispatch) => {
+      dispatch({ type: REQUEST_UPDATE_CARD, card:cardDraft });
+      KanbanAPI.updateCard(card, cardDraft).then(
+        (receivedUpdatedCard) => dispatch({ type: RECEIVE_UPDATE_CARD, success:true, card:receivedUpdatedCard }),
+        (error) => dispatch({ type: RECEIVE_UPDATE_CARD, success:false, card, error })
+      )
+    };
   },
 
-  updateCardStatus: throttle((cardId, listId) => {
-    AppDispatcher.dispatch({
-      type: constants.UPDATE_CARD_STATUS,
-      payload: {cardId, listId}
-    });
+  _updateCardStatus: throttle((dispatch, cardId, listId) => {
+    dispatch({ type: UPDATE_CARD_STATUS, cardId, listId });
   }),
 
-  updateCardPosition: throttle((cardId , afterId) => {
-    AppDispatcher.dispatch({
-      type: constants.UPDATE_CARD_POSITION,
-      payload: {cardId , afterId}
-    });
-  },500),
+  updateCardStatus(cardId, listId) {
+    return (dispatch) => this._updateCardStatus(dispatch, cardId, listId);
+  },
+
+  _updateCardPosition: throttle((dispatch, cardId, afterId) => {
+    dispatch({ type: UPDATE_CARD_POSITION, cardId, afterId });
+  }, 500),
+
+  updateCardPosition(cardId, afterId) {
+    return (dispatch) => this._updateCardPosition(dispatch, cardId, afterId);
+  },
 
   persistCardDrag(cardProps) {
-    let card = CardStore.getCard(cardProps.id)
-    let cardIndex = CardStore.getCardIndex(cardProps.id)
-    AppDispatcher.dispatchAsync(KanbanAPI.persistCardDrag(card.id, card.status, cardIndex), {
-      request: constants.PERSIST_CARD_DRAG,
-      success: constants.PERSIST_CARD_DRAG_SUCCESS,
-      failure: constants.PERSIST_CARD_DRAG_ERROR
-    }, {cardProps});
+    return (dispatch, getState) => {
+      const state = getState();
+      const card = state.cards.find((card)=>card.id == cardProps.id);
+      const cardIndex = state.cards.findIndex((card)=>card.id == cardProps.id);
+      dispatch({ type: REQUEST_PERSIST_CARD_DRAG });
+      KanbanAPI.persistCardDrag(card.id, card.status, cardIndex).then(
+        () => dispatch({ type: RECEIVE_PERSIST_CARD_DRAG, success:true, cardProps }),
+        (error) => dispatch({ type: RECEIVE_PERSIST_CARD_DRAG, success:false, cardProps, error })
+      );
+    }
+  },
+
+
+  toggleCardDetails(cardId) {
+    return { type: TOGGLE_CARD_DETAILS, cardId };
   },
 
   createDraft(card) {
-    AppDispatcher.dispatch({
-      type: constants.CREATE_DRAFT,
-      payload: {card}
-    });
+    return { type: CREATE_DRAFT, card };
   },
 
   updateDraft(field, value) {
-    AppDispatcher.dispatch({
-      type: constants.UPDATE_DRAFT,
-      payload: {field, value}
-    });
+    return { type: UPDATE_DRAFT, field, value };
   }
 
 };

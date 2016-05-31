@@ -1,23 +1,23 @@
-import React,{Component} from 'react';
+import React,{Component, PropTypes} from 'react';
+import { connect } from 'react-redux';
 import CardForm from './CardForm';
-import CardStore from '../stores/CardStore';
-import DraftStore from '../stores/DraftStore';
-import {Container} from 'flux/utils';
 import CardActionCreators from '../actions/CardActionCreators';
 
 import 'babel-polyfill';
 
 class EditCard extends Component{
 
+  componentDidMount(){
+    this.props.createDraft(this.props.card);
+  }
+
   handleChange(field, value){
-    CardActionCreators.updateDraft(field, value);
+    this.props.updateDraft(field, value);
   }
 
   handleSubmit(e){
     e.preventDefault();
-    CardActionCreators.updateCard(
-      CardStore.getCard(this.props.params.card_id),this.state.draft
-    );
+    this.props.updateCard(this.props.card, this.props.draft);
 
     this.props.history.pushState(null,'/');
   }
@@ -26,16 +26,9 @@ class EditCard extends Component{
     this.props.history.pushState(null,'/');
   }
 
-  componentDidMount(){
-    setTimeout(()=>{
-      CardActionCreators.createDraft(CardStore.getCard(this.props.params.card_id))
-    }, 0);
-  }
-
-
   render(){
     return (
-      <CardForm draftCard={this.state.draft}
+      <CardForm draftCard={this.props.draft}
                 buttonLabel="Edit Card"
                 handleChange={this.handleChange.bind(this)}
                 handleSubmit={this.handleSubmit.bind(this)}
@@ -43,10 +36,30 @@ class EditCard extends Component{
     )
   }
 }
+EditCard.propTypes = {
+  card: PropTypes.object,
+  draft: PropTypes.object,
+  createDraft: PropTypes.func.isRequired,
+  updateDraft: PropTypes.func.isRequired,
+  updateCard: PropTypes.func.isRequired,
+}
 
-EditCard.getStores = () => ([DraftStore]);
-EditCard.calculateState = (prevState) => ({
-  draft: DraftStore.getState()
-});
 
-export default Container.create(EditCard);
+const mapStateToProps = (state, ownProps) => (
+  {
+    draft: state.cardDraft,
+    card: state.cards.find((card)=>card.id == ownProps.params.card_id)
+  }
+);
+
+
+
+const mapDispatchToProps = (dispatch) => (
+  {
+    createDraft: (card) => dispatch(CardActionCreators.createDraft(card)),
+    updateDraft: (field, value) => dispatch(CardActionCreators.updateDraft(field, value)),
+    updateCard: (card, draft) => dispatch(CardActionCreators.updateCard(card, draft))
+  }
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditCard);

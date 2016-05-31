@@ -1,41 +1,31 @@
-export default {
-  CARD: 'card',
+export const CARD = 'card';
 
-  FETCH_CARDS: 'fetch cards',
-  FETCH_CARDS_SUCCESS: 'fetch cards success',
-  FETCH_CARDS_ERROR: 'fetch cards error',
+export const REQUEST_CARDS = 'request cards';
+export const RECEIVE_CARDS = 'receive cards';
 
-  TOGGLE_CARD_DETAILS: 'toggle card details',
+export const TOGGLE_CARD_DETAILS = 'toggle card details';
 
-  CREATE_CARD: 'create card',
-  CREATE_CARD_SUCCESS: 'create card success',
-  CREATE_CARD_ERROR: 'create card error',
+export const REQUEST_CREATE_CARD = 'request create card';
+export const RECEIVE_CREATE_CARD = 'receive create card';
 
-  UPDATE_CARD: 'update card',
-  UPDATE_CARD_SUCCESS: 'update card success',
-  UPDATE_CARD_ERROR: 'update card error',
+export const REQUEST_UPDATE_CARD = 'request update card';
+export const RECEIVE_UPDATE_CARD = 'receive update card';
 
-  UPDATE_CARD_STATUS: 'update card status',
+export const UPDATE_CARD_STATUS = 'update card status';
 
-  UPDATE_CARD_POSITION: 'update card position',
+export const UPDATE_CARD_POSITION = 'update card position';
 
-  PERSIST_CARD_DRAG: 'persist card drag',
-  PERSIST_CARD_DRAG_SUCCESS: 'persist card drag success',
-  PERSIST_CARD_DRAG_ERROR: 'persist card drag error',
+export const REQUEST_PERSIST_CARD_DRAG = 'request persist card drag';
+export const RECEIVE_PERSIST_CARD_DRAG = 'receive persist card drag';
 
-  CREATE_DRAFT: 'create draft',
-  UPDATE_DRAFT: 'update draft',
+export const CREATE_DRAFT = 'create draft';
+export const UPDATE_DRAFT = 'update draft';
 
-  CREATE_TASK: 'create task',
-  CREATE_TASK_SUCCESS: 'create task success',
-  CREATE_TASK_ERROR: 'create task error',
+export const REQUEST_CREATE_TASK = 'request create task';
+export const RECEIVE_CREATE_TASK = 'receive create task';
 
-  DELETE_TASK: 'delete task',
-  DELETE_TASK_SUCCESS: 'delete task success',
-  DELETE_TASK_ERROR: 'delete task error',
+export const REQUEST_DELETE_TASK = 'request delete task';
+export const RECEIVE_DELETE_TASK = 'receive delete task';
 
-  TOGGLE_TASK: 'toggle task',
-  TOGGLE_TASK_SUCCESS: 'toggle task success',
-  TOGGLE_TASK_ERROR: 'toggle task error'
-
-};
+export const REQUEST_TOGGLE_TASK = 'request toggle task';
+export const RECEIVE_TOGGLE_TASK = 'receive toggle task';
