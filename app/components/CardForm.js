@@ -39,8 +39,7 @@ class CardForm extends Component {
             <input id="color"
                    value={this.props.draftCard.color}
                    onChange={this.handleChange.bind(this,'color')}
-                   type="color"
-                   defaultValue="#ff0000" />
+                   type="color" />
 
             <div className='actions'>
               <button type="submit">{this.props.buttonLabel}</button>
