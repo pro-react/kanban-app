@@ -30,7 +30,7 @@ let TaskActionCreators = {
   toggleTask(cardId, task, taskIndex) {
     return (dispatch) => {
       dispatch({ type: REQUEST_TOGGLE_TASK, cardId, taskIndex });
-      KanbanAPI.deleteTask(cardId, task).then(
+      KanbanAPI.toggleTask(cardId, task).then(
         () => dispatch({ type: RECEIVE_TOGGLE_TASK, success:true, cardId, task, taskIndex }),
         (error) => dispatch({ type: RECEIVE_TOGGLE_TASK, success:false, cardId, taskIndex, error })
       )
