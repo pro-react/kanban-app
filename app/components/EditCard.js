@@ -1,5 +1,6 @@
 import React,{Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
+import { getCard } from '../reducers';
 import CardForm from './CardForm';
 import CardActionCreators from '../actions/CardActionCreators';
 
@@ -48,7 +49,7 @@ EditCard.propTypes = {
 const mapStateToProps = (state, ownProps) => (
   {
     draft: state.cardDraft,
-    card: state.cards.find((card)=>card.id == ownProps.params.card_id)
+    card: getCard(state, ownProps.params.card_id)
   }
 );
 

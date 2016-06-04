@@ -16,6 +16,7 @@ import {
 
 import KanbanAPI from '../api/KanbanApi';
 import {throttle} from '../utils';
+import {getCard, getCardIndex} from '../reducers';
 
 let CardActionCreators = {
   fetchCards() {
@@ -72,8 +73,8 @@ let CardActionCreators = {
   persistCardDrag(cardProps) {
     return (dispatch, getState) => {
       const state = getState();
-      const card = state.cards.find((card)=>card.id == cardProps.id);
-      const cardIndex = state.cards.findIndex((card)=>card.id == cardProps.id);
+      const card = getCard(state, cardProps.id);
+      const cardIndex = getCardIndex(state, cardProps.id);
       dispatch({ type: REQUEST_PERSIST_CARD_DRAG });
       KanbanAPI.persistCardDrag(card.id, card.status, cardIndex).then(
         () => dispatch({ type: RECEIVE_PERSIST_CARD_DRAG, success:true, cardProps }),

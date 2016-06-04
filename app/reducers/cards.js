@@ -21,9 +21,6 @@ import 'babel-polyfill';
 let cardIndex;
 let taskIndex;
 
-const getCard = (id, state) => state.find((card)=>card.id == id);
-const getCardIndex = (id, state) => state.findIndex((card)=>card.id == id);
-
 const cards = (state = [], action) => {
   switch (action.type) {
     case RECEIVE_CARDS:
@@ -39,7 +36,7 @@ const cards = (state = [], action) => {
 
     case RECEIVE_CREATE_CARD:
       if(!action.success){
-        cardIndex = getCardIndex(action.card.id, state);
+        cardIndex = getCardIndex(state, action.card.id);
         return update(state, {
           $splice:[[cardIndex, 1]]
         });
@@ -50,7 +47,7 @@ const cards = (state = [], action) => {
      * Card Status Toggle
      */
     case TOGGLE_CARD_DETAILS:
-      cardIndex = getCardIndex(action.cardId, state);
+      cardIndex = getCardIndex(state, action.cardId);
       return update(state, {
         [cardIndex]: {
           showDetails: { $apply: currentValue => (currentValue !== false)? false : true }
@@ -61,7 +58,7 @@ const cards = (state = [], action) => {
      * Card Update
      */
     case REQUEST_UPDATE_CARD:
-      cardIndex = getCardIndex(action.card.id, state);
+      cardIndex = getCardIndex(state, action.card.id);
       return update(state, {
         [cardIndex]: {
           $set: action.card
@@ -70,7 +67,7 @@ const cards = (state = [], action) => {
 
     case RECEIVE_UPDATE_CARD:
       if(!action.success){
-        cardIndex = getCardIndex(action.card.id, state);
+        cardIndex = getCardIndex(state, action.card.id);
         return update(state, {
           [cardIndex]: {
             $set: action.card
@@ -84,9 +81,9 @@ const cards = (state = [], action) => {
      */
     case UPDATE_CARD_POSITION:
       if(action.cardId !== action.afterId) {
-        cardIndex = getCardIndex(action.cardId, state);
+        cardIndex = getCardIndex(state, action.cardId);
         let card = state[cardIndex]
-        let afterIndex = getCardIndex(action.afterId, state);
+        let afterIndex = getCardIndex(state, action.afterId);
         return update(state, {
           $splice: [
             [cardIndex, 1],
@@ -96,7 +93,7 @@ const cards = (state = [], action) => {
       }
 
     case UPDATE_CARD_STATUS:
-      cardIndex = getCardIndex(action.cardId, state);
+      cardIndex = getCardIndex(state, action.cardId);
       return update(state, {
         [cardIndex]: {
           status: { $set: action.listId }
@@ -105,7 +102,7 @@ const cards = (state = [], action) => {
 
     case RECEIVE_PERSIST_CARD_DRAG:
       if(!action.success){
-        cardIndex = getCardIndex(action.cardProps.id, state);
+        cardIndex = getCardIndex(state, action.cardProps.id);
         return update(state, {
           [cardIndex]: {
             status: { $set: action.cardProps.status }
@@ -119,7 +116,7 @@ const cards = (state = [], action) => {
      * Task Creation
      */
     case REQUEST_CREATE_TASK:
-      cardIndex = getCardIndex(action.cardId, state);
+      cardIndex = getCardIndex(state, action.cardId);
       return update(state, {
         [cardIndex]: {
           tasks: { $push: [action.task] }
@@ -127,7 +124,7 @@ const cards = (state = [], action) => {
       });
 
     case RECEIVE_CREATE_TASK:
-      cardIndex = getCardIndex(action.cardId, state);
+      cardIndex = getCardIndex(state, action.cardId);
       taskIndex = state[cardIndex].tasks.findIndex(task => (
         task.id == action.temporaryTaskId
       ));
@@ -152,7 +149,7 @@ const cards = (state = [], action) => {
      * Task Deletion
      */
      case REQUEST_DELETE_TASK:
-       cardIndex = getCardIndex(action.cardId, state);
+       cardIndex = getCardIndex(state, action.cardId);
        return update(state, {
          [cardIndex]: {
            tasks: {$splice: [[action.taskIndex,1]] }
@@ -161,7 +158,7 @@ const cards = (state = [], action) => {
 
      case RECEIVE_DELETE_TASK:
        if(!action.success){
-         cardIndex = getCardIndex(action.cardId, state);
+         cardIndex = getCardIndex(state, action.cardId);
          return update(state, {
            [cardIndex]: {
              tasks: {$splice: [[action.taskIndex, 0, action.task]] }
@@ -174,7 +171,7 @@ const cards = (state = [], action) => {
       * Task Toggling
       */
      case REQUEST_TOGGLE_TASK:
-       cardIndex = getCardIndex(action.cardId, state);
+       cardIndex = getCardIndex(state, action.cardId);
        return update(state, {
          [cardIndex]: {
            tasks: {
@@ -185,7 +182,7 @@ const cards = (state = [], action) => {
 
      case RECEIVE_TOGGLE_TASK:
        if(!action.success){
-         cardIndex = getCardIndex(action.cardId, state);
+         cardIndex = getCardIndex(state, action.cardId);
          return update(state, {
            [cardIndex]: {
              tasks: {
@@ -201,3 +198,6 @@ const cards = (state = [], action) => {
 };
 
 export default cards;
+
+export const getCard = (state, id) => state.find((card)=>card.id == id);
+export const getCardIndex = (state, id) => state.findIndex((card)=>card.id == id);
