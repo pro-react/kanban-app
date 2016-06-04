@@ -15,7 +15,7 @@ const defaultDraftCard = () => {
   }
 };
 
-const cardDraft = (state = {}, action) => {
+const cardDraft = (state = defaultDraftCard(), action) => {
   switch (action.type) {
     case CREATE_DRAFT:
       if(action.card){
