@@ -3,7 +3,7 @@ export default {
 
   FETCH_CARDS: 'fetch cards',
   FETCH_CARDS_SUCCESS: 'fetch cards success',
-  FETCH_CARDS_SUCCESS: 'fetch cards error',
+  FETCH_CARDS_ERROR: 'fetch cards error',
 
   TOGGLE_CARD_DETAILS: 'toggle card details',
 
