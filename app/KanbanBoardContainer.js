@@ -69,8 +69,25 @@ class KanbanBoardContainer extends Component {
     .then((responseData) => {
       // When the server returns the definitive ID
       // used for the new Task on the server, update it on React
-      newTask.id=responseData.id
-      this.setState({cards:nextState});
+      //newTask.id=responseData.id
+      // using "Immutability Helper update" to update the state of cards
+      let taskIndex = this.state.cards[cardIndex].tasks.findIndex((element,index,array) => {
+        if (element.id == newTask.id ) {
+          return element;
+        }
+      });
+      let newCars = update(this.state.cards, {
+        [cardIndex]: {
+            tasks: {
+              [taskIndex] : {
+                  id : {
+                    $apply:() => responseData.id
+                  }
+              }
+            }
+          }
+      });
+      this.setState({cards:newCars});
     })
     .catch((error) => {
       this.setState(prevState);
